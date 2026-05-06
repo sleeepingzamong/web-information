@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>기차 시간표</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0d0833; /* 🔥 세련된 남색 */
+    text-align: center;
+}
+
+h1{
+    display : inline;
+    color : WHITE;
+    font-size : 40px;
+}
+
+/* ===== 테이블 ===== */
+table {
+    border-collapse: separate;
+    border-spacing: 50px 15px;
+    margin: 40px auto;
+}
+
+/* ===== 기본 셀 ===== */
+th, td {
+    width: 100px;
+    height: 60px;
+    text-align: center;
+    position: relative;
+}
+
+/* ===== 교시 ===== */
+.period {
+    width: 150px;
+    background: #521212;
+    border-radius: 10px;
+    font-weight: bold;
+    color : white;
+    border : 3px solid #000;
+    font-size : 20px;
+}
+
+/* ===== 🚂 요일 ===== */
+.day {
+    background: #ff8933;
+    border: 3px solid #333;
+    border-radius: 15px;
+    position: relative;
+    font-weight : bold;
+    font-size : 20px;
+}
+
+/* ===== 🔥 바퀴 (딱 붙이기) ===== */
+
+/* ===== 점선 연결 ===== */
+.day-line,
+.subject::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 0;
+    border-left: 2px dotted #883333;
+    transform: translateX(-50%);
+}
+
+/* 요일 → 과목 */
+.day-line {
+    top: 100%;
+    height: 15px;
+}
+
+/* 과목 ↔ 과목 */
+.subject::before {
+    top: -15px;
+    height: 15px;
+}
+
+tr:nth-child(2) .subject::before {
+    display: none;
+}
+
+/* ===== 과목 ===== */
+.subject {
+    background: #ffe0b3;
+    border: 2px solid #333;
+    border-radius: 10px;
+    font-weight : bold;
+}
+/* 🔥 강조 효과 */
+.highlight {
+    transform: scale(1.2);
+    background: #ff5e5e !important;
+    color: white;
+    z-index: 10;
+    transition: all 0.2s ease;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🚂 시간표</h1>
+
+<table>
+<tr>
+    <th class="period">교시</th>
+
+    <th class="day">월<span></span><div class="day-line"></div></th>
+    <th class="day">화<span></span><div class="day-line"></div></th>
+    <th class="day">수<span></span><div class="day-line"></div></th>
+    <th class="day">목<span></span><div class="day-line"></div></th>
+    <th class="day">금<span></span><div class="day-line"></div></th>
+</tr>
+
+<tr>
+    <td class="period">1교시</td>
+    <td class="subject">국어</td>
+    <td class="subject">수학</td>
+    <td class="subject">영어</td>
+    <td class="subject">과학</td>
+    <td class="subject">사회</td>
+</tr>
+
+<tr>
+    <td class="period">2교시</td>
+    <td class="subject">수학</td>
+    <td class="subject">영어</td>
+    <td class="subject">과학</td>
+    <td class="subject">사회</td>
+    <td class="subject">체육</td>
+</tr>
+
+<tr>
+    <td class="period">3교시</td>
+    <td class="subject">영어</td>
+    <td class="subject">과학</td>
+    <td class="subject">사회</td>
+    <td class="subject">체육</td>
+    <td class="subject">국어</td>
+</tr>
+
+<tr>
+    <td class="period">4교시</td>
+    <td class="subject">과학</td>
+    <td class="subject">사회</td>
+    <td class="subject">체육</td>
+    <td class="subject">국어</td>
+    <td class="subject">수학</td>
+</tr>
+
+<tr>
+    <td class="period">5교시</td>
+    <td class="subject">사회</td>
+    <td class="subject">체육</td>
+    <td class="subject">국어</td>
+    <td class="subject">수학</td>
+    <td class="subject">영어</td>
+</tr>
+
+<tr>
+    <td class="period">6교시</td>
+    <td class="subject">체육</td>
+    <td class="subject">국어</td>
+    <td class="subject">수학</td>
+    <td class="subject">영어</td>
+    <td class="subject">과학</td>
+</tr>
+
+<tr>
+    <td class="period">7교시</td>
+    <td class="subject">자습</td>
+    <td class="subject">동아리</td>
+    <td class="subject">자습</td>
+    <td class="subject">동아리</td>
+    <td class="subject">자습</td>
+</tr>
+
+</table>
+<script>
+const subjects = document.querySelectorAll('.subject');
+
+subjects.forEach(cell => {
+    cell.addEventListener('mouseenter', () => {
+        const text = cell.innerText.trim();
+
+        subjects.forEach(target => {
+            if (target.innerText.trim() === text) {
+                target.classList.add('highlight');
+            }
+        });
+    });
+
+    cell.addEventListener('mouseleave', () => {
+        subjects.forEach(target => {
+            target.classList.remove('highlight');
+        });
+    });
+});
+</script>
+</body>
+</html>
