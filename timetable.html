@@ -181,7 +181,12 @@ tr:nth-child(2) .subject::before {
 </table>
 <script>
 const subjects = document.querySelectorAll('.subject');
+const days = document.querySelectorAll('.day');
+const periods = document.querySelectorAll('.period');
 
+/* =========================
+   1️⃣ 과목 hover
+========================= */
 subjects.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
         const text = cell.innerText.trim();
@@ -196,6 +201,51 @@ subjects.forEach(cell => {
     cell.addEventListener('mouseleave', () => {
         subjects.forEach(target => {
             target.classList.remove('highlight');
+        });
+    });
+});
+
+
+/* =========================
+   2️⃣ 요일 hover (세로)
+========================= */
+days.forEach((day, colIndex) => {
+    day.addEventListener('mouseenter', () => {
+        subjects.forEach((cell, i) => {
+            const column = (i % 5); // 월~금 5칸 기준
+            if (column === colIndex) {
+                cell.classList.add('highlight');
+            }
+        });
+    });
+
+    day.addEventListener('mouseleave', () => {
+        subjects.forEach(cell => {
+            cell.classList.remove('highlight');
+        });
+    });
+});
+
+
+/* =========================
+   3️⃣ 교시 click (가로)
+========================= */
+periods.forEach((period, rowIndex) => {
+    period.addEventListener('click', () => {
+
+        // 이전 상태 초기화
+        subjects.forEach(cell => cell.classList.remove('highlight'));
+
+        // 첫 줄은 헤더니까 제외
+        if (rowIndex === 0) return;
+
+        const start = (rowIndex - 1) * 5;
+        const end = start + 5;
+
+        subjects.forEach((cell, i) => {
+            if (i >= start && i < end) {
+                cell.classList.add('highlight');
+            }
         });
     });
 });
